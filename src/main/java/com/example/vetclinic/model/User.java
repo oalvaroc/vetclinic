@@ -1,14 +1,21 @@
 package com.example.vetclinic.model;
 
+import java.util.UUID;
+
 public class User {
-    protected final int id;
+
+    protected final UUID id;
     protected final String name;
     protected final String address;
     protected final String cep;
     protected final String tel;
     protected final String email;
 
-    public User(int id, String name, String address, String cep, String tel, String email) {
+    public User(String name, String address, String cep, String tel, String email) {
+        this(UUID.randomUUID(), name, address, cep, tel, email);
+    }
+
+    public User(UUID id, String name, String address, String cep, String tel, String email) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -17,8 +24,8 @@ public class User {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public String getName() {
@@ -43,7 +50,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User(id=%d, name=%s, address=%s, cep=%s, tel=%s, email=%s"
+        return "User(id=%s, name=%s, address=%s, cep=%s, tel=%s, email=%s"
                 .formatted(id, name, address, cep, tel, email);
     }
 

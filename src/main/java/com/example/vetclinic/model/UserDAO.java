@@ -8,38 +8,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ExamDAO implements DataAccess<Exam> {
+public class UserDAO implements DataAccess<User> {
 
-    private static String tableName = "exam";
+    private static String tableName = "user";
     private Database db;
 
-    public ExamDAO() {
+    public UserDAO() {
         db = Database.getInstance();
         createTable();
     }
 
+    public String getTableName() {
+        return tableName;
+    }
+
     @Override
-    public void create(Exam entity) {
+    public void create(User entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, name, result) VALUES (?, ?, ?)";
+                + "(id, name, address, cep, tel, email) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getId());
             stmt.setString(2, entity.getName());
-            stmt.setString(3, entity.getResult());
+            stmt.setString(3, entity.getAddress());
+            stmt.setString(4, entity.getCep());
+            stmt.setString(5, entity.getTel());
+            stmt.setString(6, entity.getEmail());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
-            System.err.println("ExamDAO: " + e.getMessage());
+            System.err.println("UserDAO: " + e.getMessage());
         }
     }
 
     @Override
-    public void update(Exam entity) {
+    public void update(User entity) {
         String sql = "UPDATE " + tableName + "\n"
-                + "SET name=?, result=?\n"
+                + "SET name=?, address=?, cep=?, tel=?, email=?\n"
                 + "WHERE id=?";
 
         try {
@@ -47,17 +55,20 @@ public class ExamDAO implements DataAccess<Exam> {
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getName());
-            stmt.setString(2, entity.getResult());
-            stmt.setString(3, entity.getId());
+            stmt.setString(2, entity.getAddress());
+            stmt.setString(3, entity.getCep());
+            stmt.setString(4, entity.getTel());
+            stmt.setString(5, entity.getEmail());
+            stmt.setString(6, entity.getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
-            System.err.println("ExamDAO: " + e.getMessage());
+            System.err.println("UserDAO: " + e.getMessage());
         }
     }
 
     @Override
-    public void delete(Exam entity) {
+    public void delete(User entity) {
         String sql = "DELETE FROM " + tableName + " WHERE id=?";
         try {
             Connection conn = db.getConnection();
@@ -67,58 +78,64 @@ public class ExamDAO implements DataAccess<Exam> {
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
-            System.err.println("ExamDAO: " + e.getMessage());
+            System.err.println("UserDAO: " + e.getMessage());
         }
     }
 
     @Override
-    public Exam retrieveById(String id) {
+    public User retrieveById(String id) {
         String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
-        Exam exam = null;
+        User animal = null;
 
         try {
             ResultSet result = db.executeQuery(sql);
             if (result == null || !result.first()) {
                 return null;
             }
-            exam = buildObject(result);
+            animal = buildObject(result);
         } catch (SQLException e) {
-            System.out.println("ExamDAO: " + e.getMessage());
+            System.out.println("UserDAO: " + e.getMessage());
         }
 
-        return exam;
+        return animal;
     }
 
     @Override
-    public List<Exam> retrieveAll() {
+    public List<User> retrieveAll() {
         String sql = "SELECT * FROM " + tableName;
-        List<Exam> examList = new ArrayList<>();
+        List<User> animalList = new ArrayList<>();
 
         try {
             ResultSet result = db.executeQuery(sql);
             while (result != null && result.next()) {
-                examList.add(buildObject(result));
+                animalList.add(buildObject(result));
             }
         } catch (SQLException e) {
-            System.out.println("ExamDAO: " + e.getMessage());
+            System.out.println("UserDAO: " + e.getMessage());
         }
 
-        return examList;
+        return animalList;
     }
 
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
                 + "name TEXT,\n"
-                + "result TEXT)";
+                + "address TEXT,\n"
+                + "cep TEXT,\n"
+                + "tel TEXT,\n"
+                + "email TEXT)";
         db.executeUpdate(sql);
     }
 
-    private Exam buildObject(ResultSet result) throws SQLException {
-        return new Exam(
+    private User buildObject(ResultSet result) throws SQLException {
+        return new User(
                 UUID.fromString(result.getString("id")),
                 result.getString("name"),
-                result.getString("result")
+                result.getString("address"),
+                result.getString("cep"),
+                result.getString("tel"),
+                result.getString("email")
         );
     }
 

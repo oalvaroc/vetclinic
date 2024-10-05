@@ -1,15 +1,21 @@
 package com.example.vetclinic.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Product {
-    private int id;
+
+    private UUID id;
     private String name;
     private Date dateEntry;
     private Date dateExpiration;
     private Date dateDeparture;
 
-    public Product(int id, String name, Date dateEntry, Date dateExpiration, Date dateDeparture) {
+    public Product(String name, Date dateEntry, Date dateExpiration, Date dateDeparture) {
+        this(UUID.randomUUID(), name, dateEntry, dateExpiration, dateDeparture);
+    }
+
+    public Product(UUID id, String name, Date dateEntry, Date dateExpiration, Date dateDeparture) {
         this.id = id;
         this.name = name;
         this.dateEntry = dateEntry;
@@ -17,8 +23,8 @@ public class Product {
         this.dateDeparture = dateDeparture;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public String getName() {
@@ -36,5 +42,5 @@ public class Product {
     public Date getDateDeparture() {
         return dateDeparture;
     }
-    
+
 }
