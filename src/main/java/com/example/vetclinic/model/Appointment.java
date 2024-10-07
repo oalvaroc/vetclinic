@@ -8,15 +8,19 @@ public class Appointment {
     private UUID id;
     private Date date;
     private String report;
+    private Treatment treatment;
+    private Vet vet;
 
-    public Appointment(Date date, String report) {
-        this(UUID.randomUUID(), date, report);
+    public Appointment(Date date, String report, Vet vet, Treatment treatment) {
+        this(UUID.randomUUID(), date, report, vet, treatment);
     }
 
-    public Appointment(UUID id, Date date, String report) {
+    public Appointment(UUID id, Date date, String report, Vet vet, Treatment treatment) {
         this.id = id;
         this.date = date;
         this.report = report;
+        this.treatment = treatment;
+        this.vet = vet;
     }
 
     public String getId() {
@@ -31,4 +35,11 @@ public class Appointment {
         return report;
     }
 
+    public Treatment getTreatment() {
+        return treatment;
+    }
+
+    public Vet getVet() {
+        return vet;
+    }
 }

@@ -9,21 +9,27 @@ public class Animal {
     private int age;
     private Sex sex;
     private double weight;
+    private Client owner;
 
     public enum Sex {
         MALE, FEMALE;
     }
 
-    public Animal(String name, int age, Sex sex, double weight) {
-        this(UUID.randomUUID(), name, age, sex, weight);
+    public Animal(Client owner, String name, int age, Sex sex, double weight) {
+        this(owner, UUID.randomUUID(), name, age, sex, weight);
     }
 
-    public Animal(UUID id, String name, int age, Sex sex, double weight) {
+    public Animal(Client owner, UUID id, String name, int age, Sex sex, double weight) {
+        this.owner = owner;
         this.id = id;
         this.name = name;
         this.age = age;
         this.sex = sex;
         this.weight = weight;
+    }
+
+    public Client getOwner() {
+        return owner;
     }
 
     public String getId() {
@@ -48,8 +54,8 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal(id=%s, name=%s, age=%d, sex=%s, weight=%f)"
-                .formatted(id, name, age, sex, weight);
+        return "Animal(id=%s, name=%s, age=%d, sex=%s, weight=%f, owner_id=%s)"
+                .formatted(id, name, age, sex, weight, owner.getId());
     }
 
 }

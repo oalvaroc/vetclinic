@@ -84,11 +84,16 @@ public class UserDAO implements DataAccess<User> {
 
     @Override
     public User retrieveById(String id) {
-        String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + tableName + " WHERE id=?";
         User animal = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
             if (result == null || !result.first()) {
                 return null;
             }

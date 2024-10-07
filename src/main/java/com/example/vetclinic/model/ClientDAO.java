@@ -20,6 +20,10 @@ public class ClientDAO implements DataAccess<Client> {
         createTable();
     }
 
+    public String getTableName() {
+        return tableName;
+    }
+
     @Override
     public void create(Client entity) {
         // create in parent table
@@ -70,12 +74,17 @@ public class ClientDAO implements DataAccess<Client> {
                 + userDAO.getTableName() + " INNER JOIN "
                 + tableName + " ON "
                 + tableName + ".id = " + userDAO.getTableName() + ".id)\n"
-                + "WHERE id = " + id;
+                + "WHERE id=?";
         Client client = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
-            if (result == null || !result.first()) {
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
+            if (result == null || !result.next()) {
                 return null;
             }
             client = buildObject(result);

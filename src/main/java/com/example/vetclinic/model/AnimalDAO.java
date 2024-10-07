@@ -12,16 +12,19 @@ public class AnimalDAO implements DataAccess<Animal> {
 
     private static String tableName = "animal";
     private Database db;
+    private ClientDAO clientDAO;
 
     public AnimalDAO() {
         db = Database.getInstance();
+        clientDAO = new ClientDAO();
         createTable();
     }
 
     @Override
     public void create(Animal entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, name, age, sex, weight) VALUES (?, ?, ?, ?, ?)";
+                + "(id, name, age, sex, weight, owner_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -31,6 +34,7 @@ public class AnimalDAO implements DataAccess<Animal> {
             stmt.setInt(3, entity.getAge());
             stmt.setInt(4, entity.getSex() == Animal.Sex.MALE ? 0 : 1);
             stmt.setDouble(5, entity.getWeight());
+            stmt.setString(6, entity.getOwner().getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -77,12 +81,17 @@ public class AnimalDAO implements DataAccess<Animal> {
 
     @Override
     public Animal retrieveById(String id) {
-        String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
         Animal animal = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
-            if (result == null || !result.first()) {
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
+            if (result == null || !result.next()) {
                 return null;
             }
             animal = buildObject(result);
@@ -116,12 +125,18 @@ public class AnimalDAO implements DataAccess<Animal> {
                 + "name TEXT,\n"
                 + "age INTEGER,\n"
                 + "sex INTEGER,\n"
-                + "weight REAL)";
+                + "weight REAL,\n"
+                + "owner_id TEXT,\n"
+                + "FOREIGN KEY(owner_id) REFERENCES client(id))";
         db.executeUpdate(sql);
     }
 
     private Animal buildObject(ResultSet result) throws SQLException {
+        String id = result.getString("owner_id");
+        Client owner = clientDAO.retrieveById(id);
+
         return new Animal(
+                owner,
                 UUID.fromString(result.getString("id")),
                 result.getString("name"),
                 result.getInt("age"),

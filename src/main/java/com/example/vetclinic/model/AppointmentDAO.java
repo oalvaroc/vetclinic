@@ -13,16 +13,20 @@ public class AppointmentDAO implements DataAccess<Appointment> {
 
     private static String tableName = "appointment";
     private Database db;
+    private TreatmentDAO treatmentDAO;
+    private VetDAO vetDAO;
 
     public AppointmentDAO() {
         db = Database.getInstance();
+        treatmentDAO = new TreatmentDAO();
+        vetDAO = new VetDAO();
         createTable();
     }
 
     @Override
     public void create(Appointment entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, date, report) VALUES (?, ?, ?)";
+                + "(id, date, report, treatment_id) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -30,6 +34,7 @@ public class AppointmentDAO implements DataAccess<Appointment> {
             stmt.setString(1, entity.getId());
             stmt.setLong(2, entity.getDate().getTime());
             stmt.setString(3, entity.getReport());
+            stmt.setString(4, entity.getTreatment().getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -74,11 +79,16 @@ public class AppointmentDAO implements DataAccess<Appointment> {
 
     @Override
     public Appointment retrieveById(String id) {
-        String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + tableName + " WHERE id=?";
         Appointment appointment = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
             if (result == null || !result.first()) {
                 return null;
             }
@@ -111,15 +121,24 @@ public class AppointmentDAO implements DataAccess<Appointment> {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
                 + "date INTEGER,\n"
-                + "report TEXT)";
+                + "report TEXT,\n"
+                + "treatment_id TEXT,\n"
+                + "vet_id TEXT,\n"
+                + "FOREIGN KEY(treatment_id) REFERENCES treatment(id),\n"
+                + "FOREIGN KEY(vet_id) REFERENCES vet(id))";
         db.executeUpdate(sql);
     }
 
     private Appointment buildObject(ResultSet result) throws SQLException {
+        Treatment treatment = treatmentDAO.retrieveById(result.getString("treatment_id"));
+        Vet vet = vetDAO.retrieveById(result.getString("vet_id"));
+
         return new Appointment(
                 UUID.fromString(result.getString("id")),
                 new Date(result.getLong("date")),
-                result.getString("report")
+                result.getString("report"),
+                vet,
+                treatment
         );
     }
 

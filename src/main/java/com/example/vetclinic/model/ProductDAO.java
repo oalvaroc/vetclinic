@@ -22,16 +22,17 @@ public class ProductDAO implements DataAccess<Product> {
     @Override
     public void create(Product entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, name, date_entry, date_expiration, date_departure) "
+                + "(id, name, date_entry, date_expiration, count) "
                 + "VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getId());
-            stmt.setLong(2, entity.getDateEntry().getTime());
-            stmt.setLong(3, entity.getDateExpiration().getTime());
-            stmt.setLong(4, entity.getDateDeparture().getTime());
+            stmt.setString(2, entity.getName());
+            stmt.setLong(3, entity.getDateEntry().getTime());
+            stmt.setLong(4, entity.getDateExpiration().getTime());
+            stmt.setInt(5, entity.getCount());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -42,7 +43,7 @@ public class ProductDAO implements DataAccess<Product> {
     @Override
     public void update(Product entity) {
         String sql = "UPDATE " + tableName + "\n"
-                + "SET name=?, date_entry=?, date_expiration=?, date_departure=?\n"
+                + "SET name=?, date_entry=?, date_expiration=?, count=?\n"
                 + "WHERE id=?";
 
         try {
@@ -52,7 +53,7 @@ public class ProductDAO implements DataAccess<Product> {
             stmt.setString(1, entity.getName());
             stmt.setLong(2, entity.getDateEntry().getTime());
             stmt.setLong(3, entity.getDateExpiration().getTime());
-            stmt.setLong(4, entity.getDateDeparture().getTime());
+            stmt.setInt(4, entity.getCount());
             stmt.setString(5, entity.getId());
 
             db.executeUpdate(stmt);
@@ -78,11 +79,16 @@ public class ProductDAO implements DataAccess<Product> {
 
     @Override
     public Product retrieveById(String id) {
-        String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + tableName + " WHERE id=?";
         Product product = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
             if (result == null || !result.first()) {
                 return null;
             }
@@ -111,13 +117,30 @@ public class ProductDAO implements DataAccess<Product> {
         return productList;
     }
 
+    public List<Product> retrieveBySimilarName(String search) {
+        String sql = "SELECT * FROM " + tableName + "\n"
+                + "WHERE name LIKE '%" + search + "%'";
+        List<Product> productList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                productList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("ProductDAO: " + e.getMessage());
+        }
+
+        return productList;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
                 + "name TEXT,\n"
                 + "date_entry INTEGER,\n"
                 + "date_expiration INTEGER,\n"
-                + "date_departure INTEGER)";
+                + "count INTEGER)";
         db.executeUpdate(sql);
     }
 
@@ -127,7 +150,7 @@ public class ProductDAO implements DataAccess<Product> {
                 result.getString("name"),
                 new Date(result.getLong("date_entry")),
                 new Date(result.getLong("date_expiration")),
-                new Date(result.getLong("date_departure"))
+                result.getInt("count")
         );
     }
 

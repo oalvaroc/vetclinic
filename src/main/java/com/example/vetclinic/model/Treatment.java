@@ -8,15 +8,21 @@ public class Treatment {
     private UUID id;
     private Date dateStart;
     private Date dateEnd;
+    private Animal animal;
 
-    public Treatment(Date start, Date end) {
-        this(UUID.randomUUID(), start, end);
+    public Treatment(Animal animal, Date start, Date end) {
+        this(animal, UUID.randomUUID(), start, end);
     }
 
-    public Treatment(UUID id, Date start, Date end) {
+    public Treatment(Animal animal, UUID id, Date start, Date end) {
+        this.animal = animal;
         this.id = id;
         this.dateStart = start;
         this.dateEnd = end;
+    }
+
+    public Animal getAnimal() {
+        return animal;
     }
 
     public String getId() {

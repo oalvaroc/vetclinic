@@ -70,11 +70,16 @@ public class VetDAO implements DataAccess<Vet> {
                 + userDAO.getTableName() + " INNER JOIN "
                 + tableName + " ON "
                 + tableName + ".id = " + userDAO.getTableName() + ".id)\n"
-                + "WHERE id = " + id;
+                + "WHERE id=?";
         Vet vet = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
             if (result == null || !result.first()) {
                 return null;
             }

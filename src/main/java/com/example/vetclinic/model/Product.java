@@ -9,18 +9,26 @@ public class Product {
     private String name;
     private Date dateEntry;
     private Date dateExpiration;
-    private Date dateDeparture;
+    private int count;
 
-    public Product(String name, Date dateEntry, Date dateExpiration, Date dateDeparture) {
-        this(UUID.randomUUID(), name, dateEntry, dateExpiration, dateDeparture);
+    public Product() {
+        this("", new Date(), new Date(), 0);
     }
 
-    public Product(UUID id, String name, Date dateEntry, Date dateExpiration, Date dateDeparture) {
+    public Product(String name, Date dateEntry, Date dateExpiration, int count) {
+        this(UUID.randomUUID(), name, dateEntry, dateExpiration, count);
+    }
+
+    public Product(UUID id, String name, Date dateEntry, Date dateExpiration, int count) {
         this.id = id;
         this.name = name;
         this.dateEntry = dateEntry;
         this.dateExpiration = dateExpiration;
-        this.dateDeparture = dateDeparture;
+        this.count = count;
+    }
+
+    public Product(Product p) {
+        this(UUID.fromString(p.getId()), p.getName(), p.getDateEntry(), p.getDateExpiration(), p.getCount());
     }
 
     public String getId() {
@@ -39,8 +47,8 @@ public class Product {
         return dateExpiration;
     }
 
-    public Date getDateDeparture() {
-        return dateDeparture;
+    public int getCount() {
+        return count;
     }
 
 }

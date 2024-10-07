@@ -12,16 +12,18 @@ public class ExamDAO implements DataAccess<Exam> {
 
     private static String tableName = "exam";
     private Database db;
+    private AppointmentDAO appointmentDAO;
 
     public ExamDAO() {
         db = Database.getInstance();
+        appointmentDAO = new AppointmentDAO();
         createTable();
     }
 
     @Override
     public void create(Exam entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, name, result) VALUES (?, ?, ?)";
+                + "(id, name, result, appointment_id) VALUES (?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -29,6 +31,7 @@ public class ExamDAO implements DataAccess<Exam> {
             stmt.setString(1, entity.getId());
             stmt.setString(2, entity.getName());
             stmt.setString(3, entity.getResult());
+            stmt.setString(4, entity.getAppointment().getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -73,11 +76,16 @@ public class ExamDAO implements DataAccess<Exam> {
 
     @Override
     public Exam retrieveById(String id) {
-        String sql = "SELECT * FROM " + tableName + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + tableName + " WHERE id=?";
         Exam exam = null;
 
         try {
-            ResultSet result = db.executeQuery(sql);
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, id);
+            ResultSet result = stmt.executeQuery();
+
             if (result == null || !result.first()) {
                 return null;
             }
@@ -110,15 +118,20 @@ public class ExamDAO implements DataAccess<Exam> {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
                 + "name TEXT,\n"
-                + "result TEXT)";
+                + "result TEXT,\n"
+                + "appointment_id TEXT,\n"
+                + "FOREIGN KEY(appointment_id) REFERENCES appointment(id))";
         db.executeUpdate(sql);
     }
 
     private Exam buildObject(ResultSet result) throws SQLException {
+        Appointment appointment = appointmentDAO.retrieveById(result.getString("appointment_id"));
+
         return new Exam(
                 UUID.fromString(result.getString("id")),
                 result.getString("name"),
-                result.getString("result")
+                result.getString("result"),
+                appointment
         );
     }
 
