@@ -24,16 +24,21 @@ public class TreatmentDAO implements DataAccess<Treatment> {
     @Override
     public void create(Treatment entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, date_start, date_end, animal_id) "
-                + "VALUES (?, ?, ?, ?)";
+                + "(id, name, date_start, date_end, animal_id) "
+                + "VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getId());
-            stmt.setLong(2, entity.getDateStart().getTime());
-            stmt.setLong(3, entity.getDateEnd().getTime());
-            stmt.setString(4, entity.getAnimal().getId());
+            stmt.setString(2, entity.getName());
+            stmt.setLong(3, entity.getDateStart().getTime());
+            if (entity.getDateEnd() == null) {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            } else {
+                stmt.setLong(4, entity.getDateEnd().getTime());
+            }
+            stmt.setString(5, entity.getAnimal().getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -44,16 +49,23 @@ public class TreatmentDAO implements DataAccess<Treatment> {
     @Override
     public void update(Treatment entity) {
         String sql = "UPDATE " + tableName + "\n"
-                + "SET date_start=?, date_end=?\n"
+                + "SET name=?, date_start=?, date_end=?\n"
                 + "WHERE id=?";
 
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setLong(1, entity.getDateStart().getTime());
-            stmt.setLong(2, entity.getDateEnd().getTime());
-            stmt.setString(3, entity.getId());
+            stmt.setString(1, entity.getName());
+            stmt.setLong(2, entity.getDateStart().getTime());
+
+            if (entity.getDateEnd() == null) {
+                stmt.setNull(3, java.sql.Types.INTEGER);
+            } else {
+                stmt.setLong(3, entity.getDateEnd().getTime());
+            }
+
+            stmt.setString(4, entity.getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -88,10 +100,9 @@ public class TreatmentDAO implements DataAccess<Treatment> {
             stmt.setString(1, id);
             ResultSet result = stmt.executeQuery();
 
-            if (result == null || !result.first()) {
-                return null;
+            if (result != null && result.next()) {
+                treatment = buildObject(result);
             }
-            treatment = buildObject(result);
         } catch (SQLException e) {
             System.out.println("TreatmentDAO: " + e.getMessage());
         }
@@ -116,9 +127,44 @@ public class TreatmentDAO implements DataAccess<Treatment> {
         return treatmentList;
     }
 
+    public Treatment retrieveByName(String name) {
+        String sql = "SELECT * FROM " + tableName + "\n"
+                + "WHERE name='" + name + "'";
+        Treatment treatment = null;
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            if (result != null && result.next()) {
+                treatment = buildObject(result);
+            }
+        } catch (SQLException e) {
+            System.out.println("TreatmentDAO: " + e.getMessage());
+        }
+
+        return treatment;
+    }
+
+    public List<Treatment> retrieveBySimilarName(String name) {
+        String sql = "SELECT * FROM " + tableName + "\n"
+                + "WHERE name LIKE '%" + name + "%'";
+        ArrayList<Treatment> treatmentList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                treatmentList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("TreatmentDAO: " + e.getMessage());
+        }
+
+        return treatmentList;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
+                + "name TEXT,\n"
                 + "date_start INTEGER,\n"
                 + "date_end INTEGER,\n"
                 + "animal_id TEXT,\n"
@@ -127,14 +173,28 @@ public class TreatmentDAO implements DataAccess<Treatment> {
     }
 
     private Treatment buildObject(ResultSet result) throws SQLException {
+        String uuid = result.getString("id");
+        String name = result.getString("name");
+        Date startDate = new Date(result.getLong("date_start"));
+
+        long endTimestamp = result.getLong("date_end");
+        Date endDate = null;
+        if (!result.wasNull()) {
+            endDate = new Date(endTimestamp);
+        }
+
         Animal animal = animalDAO.retrieveById(result.getString("animal_id"));
 
         return new Treatment(
+                UUID.fromString(uuid),
+                name,
                 animal,
-                UUID.fromString(result.getString("id")),
-                new Date(result.getLong("date_start")),
-                new Date(result.getLong("date_end"))
+                startDate,
+                endDate
         );
     }
 
+    public String getTableName() {
+        return tableName;
+    }
 }

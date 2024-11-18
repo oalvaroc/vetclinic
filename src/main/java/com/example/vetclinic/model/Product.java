@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Product {
 
-    private UUID id;
+    private final UUID id;
     private String name;
     private Date dateEntry;
     private Date dateExpiration;
@@ -49,6 +49,22 @@ public class Product {
 
     public int getCount() {
         return count;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateEntry(Date dateEntry) {
+        this.dateEntry = dateEntry;
+    }
+
+    public void setDateExpiration(Date dateExpiration) {
+        this.dateExpiration = dateExpiration;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
 }

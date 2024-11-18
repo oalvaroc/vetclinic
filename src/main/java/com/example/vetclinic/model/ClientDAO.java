@@ -115,6 +115,43 @@ public class ClientDAO implements DataAccess<Client> {
         return clientList;
     }
 
+    public List<Client> retrieveBySimilarName(String search) {
+        String sql = "SELECT * FROM "
+                + userDAO.getTableName() + " INNER JOIN "
+                + tableName + " ON "
+                + tableName + ".id = " + userDAO.getTableName() + ".id\n"
+                + "WHERE name LIKE '%" + search + "%'";
+        List<Client> clientList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                clientList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("ClientDAO: " + e.getMessage());
+        }
+
+        return clientList;
+    }
+
+    public Client retrieveByName(String name) {
+        String sql = "SELECT * FROM "
+                + userDAO.getTableName() + " INNER JOIN "
+                + tableName + " ON "
+                + tableName + ".id = " + userDAO.getTableName() + ".id\n"
+                + "WHERE name = '" + name + "'";
+        try {
+            ResultSet result = db.executeQuery(sql);
+            if (result != null && result.next()) {
+                return buildObject(result);
+            }
+        } catch (SQLException e) {
+            System.out.println("ClientDAO: " + e.getMessage());
+        }
+        return null;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"

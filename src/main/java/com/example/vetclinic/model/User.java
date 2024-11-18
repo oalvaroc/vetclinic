@@ -5,11 +5,11 @@ import java.util.UUID;
 public class User {
 
     protected final UUID id;
-    protected final String name;
-    protected final String address;
-    protected final String cep;
-    protected final String tel;
-    protected final String email;
+    protected String name;
+    protected String address;
+    protected String cep;
+    protected String tel;
+    protected String email;
 
     public User(String name, String address, String cep, String tel, String email) {
         this(UUID.randomUUID(), name, address, cep, tel, email);
@@ -22,6 +22,15 @@ public class User {
         this.cep = cep;
         this.tel = tel;
         this.email = email;
+    }
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.getName();
+        this.address = user.getAddress();
+        this.cep = user.getCep();
+        this.tel = user.getTel();
+        this.email = user.getEmail();
     }
 
     public String getId() {
@@ -46,6 +55,26 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

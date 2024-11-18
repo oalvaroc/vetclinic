@@ -50,6 +50,7 @@ public final class Database {
     }
 
     public void executeUpdate(PreparedStatement stmt) throws SQLException {
+        System.out.println(("SQL: " + stmt).replace('\n', ' '));
         stmt.executeUpdate();
     }
 
@@ -69,6 +70,7 @@ public final class Database {
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
+            System.out.println(("SQL: " + stmt).replace('\n', ' '));
             result = stmt.executeQuery();
         } catch (SQLException e) {
             System.err.println("SQL: " + e.getMessage());

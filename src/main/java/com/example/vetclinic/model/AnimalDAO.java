@@ -119,6 +119,63 @@ public class AnimalDAO implements DataAccess<Animal> {
         return animalList;
     }
 
+    public List<Animal> retrieveBySimilarName(String search) {
+        String sql = "SELECT * FROM "
+                + clientDAO.getTableName() + " INNER JOIN " + tableName
+                + " ON " + clientDAO.getTableName() + ".id=" + tableName + ".owner_id\n"
+                + "WHERE " + tableName + ".name LIKE '%" + search + "%'";
+        List<Animal> animalList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                animalList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("AnimalDAO: " + e.getMessage());
+        }
+        return animalList;
+    }
+
+    public List<Animal> retrieveAllFromOwner(Client owner) {
+        String sql = "SELECT * FROM " + tableName
+                + " WHERE " + tableName + ".owner_id=?";
+
+        List<Animal> animalList = new ArrayList<>();
+
+        try {
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, owner.getId());
+
+            ResultSet result = stmt.executeQuery();
+            while (result != null && result.next()) {
+                animalList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("AnimalDAO: " + e.getMessage());
+        }
+        return animalList;
+    }
+
+    public Animal retrieveByName(String name) {
+        String sql = "SELECT * FROM "
+                + clientDAO.getTableName() + " INNER JOIN " + tableName
+                + " ON " + clientDAO.getTableName() + ".id=" + tableName + ".owner_id\n"
+                + "WHERE " + tableName + ".name='" + name + "'";
+        Animal animal = null;
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            if (result != null && result.next()) {
+                animal = buildObject(result);
+            }
+        } catch (SQLException e) {
+            System.out.println("AnimalDAO: " + e.getMessage());
+        }
+        return animal;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
@@ -144,4 +201,5 @@ public class AnimalDAO implements DataAccess<Animal> {
                 result.getDouble("weight")
         );
     }
+
 }

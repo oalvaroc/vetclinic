@@ -1,7 +1,8 @@
 package com.example.vetclinic.view;
 
-import com.example.vetclinic.controller.Controller;
+import com.example.vetclinic.controller.ProductController;
 import com.example.vetclinic.model.Product;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
@@ -9,9 +10,9 @@ import java.util.UUID;
 public class ProductTableModel extends GenericTableModel {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    private Controller controller;
+    private ProductController controller;
 
-    public ProductTableModel(Controller controller, List rows) {
+    public ProductTableModel(ProductController controller, List rows) {
         super(rows, new String[]{"Nome", "Data Adicionado", "Data Validade", "Qtd."});
         this.controller = controller;
     }
@@ -51,50 +52,27 @@ public class ProductTableModel extends GenericTableModel {
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Product product = (Product) getItem(rowIndex);
-        Product newProd = null;
+        Product newProd = new Product(product);
 
         try {
             switch (columnIndex) {
-                case 0:
-                    newProd = new Product(
-                            UUID.fromString(product.getId()),
-                            (String) value,
-                            product.getDateEntry(),
-                            product.getDateExpiration(),
-                            product.getCount()
-                    );
-                case 1:
-                    newProd = new Product(
-                            UUID.fromString(product.getId()),
-                            product.getName(),
-                            dateFormat.parse((String) value),
-                            product.getDateExpiration(),
-                            product.getCount()
-                    );
-                case 2:
-                    newProd = new Product(
-                            UUID.fromString(product.getId()),
-                            product.getName(),
-                            product.getDateEntry(),
-                            dateFormat.parse((String) value),
-                            product.getCount()
-                    );
-                case 3:
-                    newProd = new Product(
-                            UUID.fromString(product.getId()),
-                            product.getName(),
-                            product.getDateEntry(),
-                            product.getDateExpiration(),
-                            (Integer) value
-                    );
+                case 0 ->
+                    newProd.setName((String) value);
+                case 1 ->
+                    newProd.setDateEntry(dateFormat.parse((String) value));
+                case 2 ->
+                    newProd.setDateExpiration(dateFormat.parse((String) value));
+                case 3 -> {
+                    if ((Integer) value >= 0) {
+                        newProd.setCount((Integer) value);
+                    }
+                }
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
         }
 
-        if (newProd != null) {
-            setItem(newProd, rowIndex);
-            controller.updateProduct(newProd);
-        }
+        setItem(newProd, rowIndex);
+        controller.update(newProd);
     }
 
     @Override

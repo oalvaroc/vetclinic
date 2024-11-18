@@ -12,6 +12,14 @@ public class Client extends User {
         super(id, name, address, cep, tel, email);
     }
 
+    public Client(Client client) {
+        super(client);
+    }
+
+    public Client() {
+        super("", "", "", "", "");
+    }
+
     @Override
     public String toString() {
         return "Client(id=%s, name=%s, address=%s, cep=%s, tel=%s, email=%s"

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Animal {
 
-    private UUID id;
+    private final UUID id;
     private String name;
     private int age;
     private Sex sex;
@@ -26,6 +26,14 @@ public class Animal {
         this.age = age;
         this.sex = sex;
         this.weight = weight;
+    }
+
+    public Animal(Client owner) {
+        this(owner, "", 0, Sex.MALE, 0);
+    }
+
+    public Animal(Animal animal) {
+        this(animal.owner, animal.id, animal.name, animal.age, animal.sex, animal.weight);
     }
 
     public Client getOwner() {
@@ -50,6 +58,26 @@ public class Animal {
 
     public double getWeight() {
         return weight;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
     }
 
     @Override

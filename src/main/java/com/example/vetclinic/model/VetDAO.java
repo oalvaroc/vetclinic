@@ -80,10 +80,9 @@ public class VetDAO implements DataAccess<Vet> {
             stmt.setString(1, id);
             ResultSet result = stmt.executeQuery();
 
-            if (result == null || !result.first()) {
-                return null;
+            if (result != null && result.next()) {
+                vet = buildObject(result);
             }
-            vet = buildObject(result);
         } catch (SQLException e) {
             System.out.println("VetDAO: " + e.getMessage());
         }
@@ -106,6 +105,26 @@ public class VetDAO implements DataAccess<Vet> {
             }
         } catch (SQLException e) {
             System.out.println("VetDAO: " + e.getMessage());
+        }
+
+        return vetList;
+    }
+
+    public List<Vet> retrieveBySimilarName(String search) {
+        String sql = "SELECT * FROM "
+                + userDAO.getTableName() + " INNER JOIN "
+                + tableName + " ON "
+                + tableName + ".id = " + userDAO.getTableName() + ".id\n"
+                + "WHERE name LIKE '%" + search + "%'";
+        List<Vet> vetList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                vetList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("ClientDAO: " + e.getMessage());
         }
 
         return vetList;

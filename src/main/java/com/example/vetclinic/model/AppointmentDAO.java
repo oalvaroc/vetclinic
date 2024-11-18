@@ -26,7 +26,7 @@ public class AppointmentDAO implements DataAccess<Appointment> {
     @Override
     public void create(Appointment entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, date, report, treatment_id) VALUES (?, ?, ?, ?)";
+                + "(id, date, report, treatment_id, vet_id) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -34,8 +34,11 @@ public class AppointmentDAO implements DataAccess<Appointment> {
             stmt.setString(1, entity.getId());
             stmt.setLong(2, entity.getDate().getTime());
             stmt.setString(3, entity.getReport());
-            stmt.setString(4, entity.getTreatment().getId());
 
+            Treatment t = entity.getTreatment();
+            stmt.setString(4, t == null ? null : t.getId());
+
+            stmt.setString(5, entity.getVet().getId());
             db.executeUpdate(stmt);
         } catch (SQLException e) {
             System.err.println("AppointmentDAO: " + e.getMessage());
@@ -117,6 +120,25 @@ public class AppointmentDAO implements DataAccess<Appointment> {
         return appointmentList;
     }
 
+    public List<Appointment> retrieveByTreatment(Treatment t) {
+        String sql = "SELECT * FROM " + tableName + "\n"
+                + "INNER JOIN " + treatmentDAO.getTableName() + "\n"
+                + "ON " + tableName + ".treatment_id=" + treatmentDAO.getTableName() + ".id\n"
+                + "WHERE " + treatmentDAO.getTableName() + ".id='" + t.getId() + "'";
+        List<Appointment> appointmentList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                appointmentList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("AppointmentDAO: " + e.getMessage());
+        }
+
+        return appointmentList;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
@@ -130,13 +152,16 @@ public class AppointmentDAO implements DataAccess<Appointment> {
     }
 
     private Appointment buildObject(ResultSet result) throws SQLException {
+        String uuid = result.getString("id");
+        Date date = new Date(result.getLong("date"));
+        String report = result.getString("report");
         Treatment treatment = treatmentDAO.retrieveById(result.getString("treatment_id"));
         Vet vet = vetDAO.retrieveById(result.getString("vet_id"));
 
         return new Appointment(
-                UUID.fromString(result.getString("id")),
-                new Date(result.getLong("date")),
-                result.getString("report"),
+                UUID.fromString(uuid),
+                date,
+                report,
                 vet,
                 treatment
         );

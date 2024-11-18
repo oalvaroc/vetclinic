@@ -23,15 +23,14 @@ public class ExamDAO implements DataAccess<Exam> {
     @Override
     public void create(Exam entity) {
         String sql = "INSERT INTO " + tableName
-                + "(id, name, result, appointment_id) VALUES (?, ?, ?, ?)";
+                + "(id, name, appointment_id) VALUES (?, ?, ?)";
         try {
             Connection conn = db.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getId());
             stmt.setString(2, entity.getName());
-            stmt.setString(3, entity.getResult());
-            stmt.setString(4, entity.getAppointment().getId());
+            stmt.setString(3, entity.getAppointment().getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -42,7 +41,7 @@ public class ExamDAO implements DataAccess<Exam> {
     @Override
     public void update(Exam entity) {
         String sql = "UPDATE " + tableName + "\n"
-                + "SET name=?, result=?\n"
+                + "SET name=?\n"
                 + "WHERE id=?";
 
         try {
@@ -50,8 +49,7 @@ public class ExamDAO implements DataAccess<Exam> {
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, entity.getName());
-            stmt.setString(2, entity.getResult());
-            stmt.setString(3, entity.getId());
+            stmt.setString(2, entity.getId());
 
             db.executeUpdate(stmt);
         } catch (SQLException e) {
@@ -114,11 +112,27 @@ public class ExamDAO implements DataAccess<Exam> {
         return examList;
     }
 
+    public List<Exam> retrieveByAppointment(Appointment a) {
+        String sql = "SELECT * FROM " + tableName + "\n"
+                + "WHERE appointment_id='" + a.getId() + "'";
+        List<Exam> examList = new ArrayList<>();
+
+        try {
+            ResultSet result = db.executeQuery(sql);
+            while (result != null && result.next()) {
+                examList.add(buildObject(result));
+            }
+        } catch (SQLException e) {
+            System.out.println("ExamDAO: " + e.getMessage());
+        }
+
+        return examList;
+    }
+
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(\n"
                 + "id TEXT PRIMARY KEY,\n"
                 + "name TEXT,\n"
-                + "result TEXT,\n"
                 + "appointment_id TEXT,\n"
                 + "FOREIGN KEY(appointment_id) REFERENCES appointment(id))";
         db.executeUpdate(sql);
@@ -130,7 +144,6 @@ public class ExamDAO implements DataAccess<Exam> {
         return new Exam(
                 UUID.fromString(result.getString("id")),
                 result.getString("name"),
-                result.getString("result"),
                 appointment
         );
     }

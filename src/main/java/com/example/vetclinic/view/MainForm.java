@@ -1,13 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.example.vetclinic.view;
 
-import java.util.ArrayList;
 import com.example.vetclinic.controller.Controller;
+import com.example.vetclinic.model.Animal;
 import com.example.vetclinic.model.Product;
+import com.example.vetclinic.model.Client;
+import com.example.vetclinic.model.Vet;
+import com.example.vetclinic.model.Treatment;
+import com.example.vetclinic.model.Appointment;
+import com.example.vetclinic.model.Exam;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.zinternaltools.DateTimeChangeEvent;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
 
 /**
  *
@@ -36,66 +56,66 @@ public class MainForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         clientNameTextField = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        animalNameTextField = new javax.swing.JTextField();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0));
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        clientTable = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        clientSearchTextField = new javax.swing.JTextField();
+        clientShowAllButton = new javax.swing.JButton();
+        clientNewButton = new javax.swing.JButton();
+        clientRemoveButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        animalTable = new javax.swing.JTable();
+        animalNewButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        animalSearchTextField = new javax.swing.JTextField();
+        animalShowAllButton = new javax.swing.JButton();
+        animalRemoveButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        vetTable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        vetSearchTextField = new javax.swing.JTextField();
+        vetShowAllButton = new javax.swing.JButton();
+        vetNewButton = new javax.swing.JButton();
+        vetRemoveButton = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        includeTreatmentCheckbox = new javax.swing.JCheckBox();
+        vetNameTextField = new javax.swing.JTextField();
         treatmentLabel = new javax.swing.JLabel();
-        treatmentTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        treatmentComments = new javax.swing.JTextArea();
-        treatmentCommentsTextField = new javax.swing.JLabel();
+        appointmentComments = new javax.swing.JTextArea();
+        appointmentCommentsLabel = new javax.swing.JLabel();
         createAppointmentButton = new javax.swing.JButton();
+        treatmentComboBox = new javax.swing.JComboBox<>();
+        dateTimePicker = initDateTimePicker();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        treatmentTable = new javax.swing.JTable();
+        treatmentNewButton = new javax.swing.JButton();
+        treatmentFinishButton = new javax.swing.JButton();
+        treatmentSearchTextField = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        treatmentShowAllButton = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        appointmentTable = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        appointmentTextArea = new javax.swing.JTextArea();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton11 = new javax.swing.JButton();
-        jTextField9 = new javax.swing.JTextField();
+        examsList = new javax.swing.JList<>();
+        addExamButton = new javax.swing.JButton();
+        examsTextField = new javax.swing.JTextField();
         productPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         productSearchTextField = new javax.swing.JTextField();
@@ -104,6 +124,8 @@ public class MainForm extends javax.swing.JFrame {
         productNewButton = new javax.swing.JButton();
         jScrollPane9 = new javax.swing.JScrollPane();
         productTable = new javax.swing.JTable();
+        menuBar = new javax.swing.JMenuBar();
+        aboutMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,18 +135,9 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel2.setText("Animal");
 
-        clientNameTextField.setEnabled(false);
-        clientNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientNameTextFieldActionPerformed(evt);
-            }
-        });
+        clientNameTextField.setEditable(false);
 
-        jTextField1.setEnabled(false);
-
-        jLabel3.setText("Espécie");
-
-        jTextField2.setEnabled(false);
+        animalNameTextField.setEditable(false);
 
         javax.swing.GroupLayout clientPanelLayout = new javax.swing.GroupLayout(clientPanel);
         clientPanel.setLayout(clientPanelLayout);
@@ -140,11 +153,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(animalNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         clientPanelLayout.setVerticalGroup(
@@ -155,9 +164,7 @@ public class MainForm extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addComponent(clientNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(animalNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(clientPanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -168,37 +175,41 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        clientTable.setModel(new ClientTableModel(controller.getClientController(), new ArrayList<Client>()));
+        clientTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        clientTable.getSelectionModel().addListSelectionListener((evt) -> {clientTableSelectionListener(evt);});
+        clientTable.getModel().addTableModelListener((evt) -> { clientTableModelListener(evt); });
+        jScrollPane2.setViewportView(clientTable);
 
         jLabel4.setText("Pesquisar:");
 
-        jButton1.setText("Todos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        clientSearchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                clientSearchTextFieldKeyTyped(evt);
             }
         });
 
-        jButton2.setText("Novo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        clientShowAllButton.setText("Todos");
+        clientShowAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                clientShowAllButtonActionPerformed(evt);
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(150, 80, 82));
-        jButton8.setText("Remover");
+        clientNewButton.setText("Novo");
+        clientNewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientNewButtonActionPerformed(evt);
+            }
+        });
+
+        clientRemoveButton.setText("Remover");
+        clientRemoveButton.setBackground(new java.awt.Color(150, 80, 82));
+        clientRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientRemoveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -211,13 +222,13 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clientSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(clientShowAllButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(clientNewButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8)))
+                        .addComponent(clientRemoveButton)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -226,10 +237,10 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton8))
+                    .addComponent(clientSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientShowAllButton)
+                    .addComponent(clientNewButton)
+                    .addComponent(clientRemoveButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(549, 549, 549))
@@ -237,35 +248,42 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Animal"));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+        animalTable.setModel(new AnimalTableModel(controller.getAnimalController(), controller.getClientController(), new ArrayList<Animal>()));
+        animalTable.setToolTipText("");
+        animalTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        animalTable.getSelectionModel().addListSelectionListener((evt) -> {animalTableSelectionListener(evt);});
+        animalTable.getModel().addTableModelListener((evt) -> { animalTableModelListener(evt); });
+        jScrollPane3.setViewportView(animalTable);
 
-        jButton4.setText("Novo");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        animalNewButton.setText("Novo");
+        animalNewButton.setEnabled(false);
+        animalNewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                animalNewButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setText("Pesquisar:");
 
-        jButton3.setText("Todos");
+        animalSearchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                animalSearchTextFieldKeyTyped(evt);
+            }
+        });
 
-        jButton7.setBackground(new java.awt.Color(150, 80, 82));
-        jButton7.setText("Remover");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        animalShowAllButton.setText("Todos");
+        animalShowAllButton.setEnabled(false);
+        animalShowAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                animalShowAllButtonActionPerformed(evt);
+            }
+        });
+
+        animalRemoveButton.setText("Remover");
+        animalRemoveButton.setBackground(new java.awt.Color(150, 80, 82));
+        animalRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                animalRemoveButtonActionPerformed(evt);
             }
         });
 
@@ -280,13 +298,13 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(animalSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(67, 67, 67)
-                        .addComponent(jButton4)
+                        .addComponent(animalShowAllButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7)))
+                        .addComponent(animalNewButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(animalRemoveButton)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -294,11 +312,11 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
+                    .addComponent(animalNewButton)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton7))
+                    .addComponent(animalSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(animalShowAllButton)
+                    .addComponent(animalRemoveButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(549, 549, 549))
@@ -325,40 +343,38 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Veterinário"));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable4);
+        vetTable.setModel(new VetTableModel(controller.getVetController(), new ArrayList<Vet>()));
+        vetTable.getSelectionModel().addListSelectionListener((evt) -> {vetTableSelectionListener(evt);});
+        vetTable.getModel().addTableModelListener((evt) -> { vetTableModelListener(evt); });
+        jScrollPane4.setViewportView(vetTable);
 
         jLabel6.setText("Pesquisar:");
 
-        jButton5.setText("Todos");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+        vetSearchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                vetSearchTextFieldKeyTyped(evt);
             }
         });
 
-        jButton6.setText("Novo");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        vetShowAllButton.setText("Todos");
+        vetShowAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                vetShowAllButtonActionPerformed(evt);
             }
         });
 
-        jButton9.setBackground(new java.awt.Color(150, 80, 82));
-        jButton9.setText("Remover");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        vetNewButton.setText("Novo");
+        vetNewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                vetNewButtonActionPerformed(evt);
+            }
+        });
+
+        vetRemoveButton.setText("Remover");
+        vetRemoveButton.setBackground(new java.awt.Color(150, 80, 82));
+        vetRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vetRemoveButtonActionPerformed(evt);
             }
         });
 
@@ -373,13 +389,13 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(vetSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(vetShowAllButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                        .addComponent(jButton6)
+                        .addComponent(vetNewButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton9)))
+                        .addComponent(vetRemoveButton)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -388,10 +404,10 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton9))
+                    .addComponent(vetSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vetShowAllButton)
+                    .addComponent(vetNewButton)
+                    .addComponent(vetRemoveButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(549, 549, 549))
@@ -399,46 +415,34 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Agendar Consulta"));
 
-        jLabel7.setText("Data");
-
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+        jLabel7.setText("Data/Hora");
 
         jLabel8.setText("Veterinário");
 
-        jLabel9.setText("Hora");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        includeTreatmentCheckbox.setText("Incluir Tratamento");
-        includeTreatmentCheckbox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                includeTreatmentCheckboxActionPerformed(evt);
-            }
-        });
+        vetNameTextField.setEditable(false);
 
         treatmentLabel.setText("Tratamento");
-        treatmentLabel.setEnabled(false);
 
-        treatmentTextField.setEnabled(false);
-        treatmentTextField.addActionListener(new java.awt.event.ActionListener() {
+        appointmentComments.setColumns(20);
+        appointmentComments.setRows(5);
+        jScrollPane1.setViewportView(appointmentComments);
+
+        appointmentCommentsLabel.setText("Comentários/Sintomas");
+
+        createAppointmentButton.setText("Agendar");
+        createAppointmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                treatmentTextFieldActionPerformed(evt);
+                createAppointmentButtonActionPerformed(evt);
             }
         });
 
-        treatmentComments.setColumns(20);
-        treatmentComments.setRows(5);
-        treatmentComments.setEnabled(false);
-        jScrollPane1.setViewportView(treatmentComments);
-
-        treatmentCommentsTextField.setText("Comentários/Sintomas");
-        treatmentCommentsTextField.setEnabled(false);
-
-        createAppointmentButton.setText("Agendar");
+        treatmentComboBox.setModel(new TreatmentComboBoxModel(controller.getTreatmentController().retrieveAll())
+        );
+        treatmentComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treatmentComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -447,66 +451,57 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(treatmentLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(treatmentTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(55, 55, 55)))
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField7)
-                                    .addComponent(jTextField6))))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(treatmentCommentsTextField)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addComponent(jLabel8)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(55, 55, 55)))
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(vetNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addComponent(dateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(treatmentLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(treatmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(107, 107, 107)
+                                .addComponent(createAppointmentButton))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(includeTreatmentCheckbox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(createAppointmentButton)))
+                                .addComponent(appointmentCommentsLabel)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(31, 31, 31)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(includeTreatmentCheckbox)
-                    .addComponent(createAppointmentButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(treatmentLabel)
-                    .addComponent(treatmentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vetNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(treatmentCommentsTextField)
+                .addComponent(appointmentCommentsLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(treatmentLabel)
+                    .addComponent(createAppointmentButton)
+                    .addComponent(treatmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -522,78 +517,106 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Agendamento", jPanel4);
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Tratamentos"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        treatmentTable.setModel(new TreatmentTableModel(controller.getTreatmentController(), new ArrayList<Treatment>()));
+        treatmentTable.getSelectionModel().addListSelectionListener((evt) -> {treatmentTableSelectionListener(evt);});
+        jScrollPane5.setViewportView(treatmentTable);
+
+        treatmentNewButton.setText("Novo");
+        treatmentNewButton.setEnabled(false);
+        treatmentNewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treatmentNewButtonActionPerformed(evt);
             }
-        ));
-        jScrollPane5.setViewportView(jTable1);
+        });
+
+        treatmentFinishButton.setText("Finalizar");
+        treatmentFinishButton.setBackground(new java.awt.Color(120, 80, 150));
+        treatmentFinishButton.setEnabled(false);
+        treatmentFinishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treatmentFinishButtonActionPerformed(evt);
+            }
+        });
+
+        treatmentSearchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                treatmentSearchTextFieldKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setText("Pesquisar:");
+
+        treatmentShowAllButton.setText("Todos");
+        treatmentShowAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treatmentShowAllButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(treatmentSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(treatmentShowAllButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(treatmentFinishButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(treatmentNewButton)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(treatmentFinishButton)
+                    .addComponent(treatmentNewButton)
+                    .addComponent(treatmentSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(treatmentShowAllButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Consultas"));
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane6.setViewportView(jTable5);
+        appointmentTable.setModel(new AppointmentTableModel(new ArrayList<Appointment>()));
+        appointmentTable.getSelectionModel().addListSelectionListener((evt) -> {appointmentTableSelectionListener(evt);});
+        jScrollPane6.setViewportView(appointmentTable);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane7.setViewportView(jTextArea2);
+        appointmentTextArea.setEditable(false);
+        appointmentTextArea.setColumns(20);
+        appointmentTextArea.setRows(5);
+        jScrollPane7.setViewportView(appointmentTextArea);
 
         jLabel12.setText("Comentários");
 
         jLabel13.setText("Exames");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane8.setViewportView(jList1);
+        examsList.setListData(new Vector<String>());
+        jScrollPane8.setViewportView(examsList);
 
-        jButton11.setText("Adicionar Exame");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        addExamButton.setText("Adicionar Exame");
+        addExamButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                addExamButtonActionPerformed(evt);
             }
         });
 
@@ -607,12 +630,12 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton11))
+                        .addComponent(addExamButton))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                            .addComponent(jTextField9)
+                            .addComponent(examsTextField)
                             .addComponent(jScrollPane8)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,9 +658,9 @@ public class MainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(examsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton11))
+                        .addComponent(addExamButton))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(79, 79, 79))
         );
@@ -663,11 +686,6 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel10.setText("Pesquisar");
 
-        productSearchTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productSearchTextFieldActionPerformed(evt);
-            }
-        });
         productSearchTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 productSearchTextFieldKeyTyped(evt);
@@ -681,8 +699,8 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        productRemoveButton.setBackground(new java.awt.Color(150, 80, 82));
         productRemoveButton.setText("Remover");
+        productRemoveButton.setBackground(new java.awt.Color(150, 80, 82));
         productRemoveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productRemoveButtonActionPerformed(evt);
@@ -696,7 +714,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        productTable.setModel(new ProductTableModel(controller, new ArrayList<Product>()));
+        productTable.setModel(new ProductTableModel(controller.getProductController(), new ArrayList<Product>()));
         jScrollPane9.setViewportView(productTable);
 
         javax.swing.GroupLayout productPanelLayout = new javax.swing.GroupLayout(productPanel);
@@ -736,6 +754,20 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Produtos", productPanel);
 
+        aboutMenu.setText("Sobre");
+        aboutMenu.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                aboutMenuMenuSelected(evt);
+            }
+        });
+        menuBar.add(aboutMenu);
+
+        setJMenuBar(menuBar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -760,67 +792,226 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clientNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clientNameTextFieldActionPerformed
+    private DateTimePicker initDateTimePicker() {
+        DatePickerSettings datePickerSettings = new DatePickerSettings();
+        TimePickerSettings timePickerSettings = new TimePickerSettings();
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        DateTimePicker picker = new DateTimePicker(datePickerSettings, timePickerSettings);
+        datePickerSettings.setAllowEmptyDates(false);
+        datePickerSettings.setDateRangeLimits(LocalDate.now(), LocalDate.MAX);
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        timePickerSettings.setVetoPolicy((lt) -> {
+            int hour = lt.getHour();
+            return hour >= 8 && hour <= 18;
+        });
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        return picker;
+    }
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void clientShowAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientShowAllButtonActionPerformed
+        ClientTableModel model = (ClientTableModel) clientTable.getModel();
+        List<Object> items = new ArrayList<>(controller.getClientController().retrieveAll());
+        model.addListOfItems(items);
+    }//GEN-LAST:event_clientShowAllButtonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void clientNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientNewButtonActionPerformed
+        ClientTableModel model = (ClientTableModel) clientTable.getModel();
+        Client client = controller.getClientController().create();
+        model.addItem(client);
+        controller.setCurrentClient(client);
+        clientNameTextField.setText(client.getName());
+    }//GEN-LAST:event_clientNewButtonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void animalTableEnable(boolean enable) {
+        animalNewButton.setEnabled(enable);
+        animalShowAllButton.setEnabled(enable);
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+        AnimalTableModel model = (AnimalTableModel) animalTable.getModel();
+        model.clear();
+    }
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    private void clientTableSelectionListener(ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
 
-    private void treatmentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_treatmentTextFieldActionPerformed
+        ClientTableModel model = (ClientTableModel) clientTable.getModel();
+        ListSelectionModel lsm = (ListSelectionModel) evt.getSource();
+        int row = lsm.getMaxSelectionIndex();
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+        animalTableEnable(row >= 0);
 
-    private void includeTreatmentCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_includeTreatmentCheckboxActionPerformed
-        // TODO add your handling code here:
-        boolean enabled = includeTreatmentCheckbox.isSelected();
+        // table model list may be empty if we try to delete the last element
+        if (row >= 0 && !model.isEmpty()) {
+            Client client = (Client) model.getItem(row);
+            controller.setCurrentClient(client);
+            clientNameTextField.setText(client.getName());
+        } else {
+            clientNameTextField.setText("");
+            controller.setCurrentClient(null);
+        }
+    }
 
-        treatmentComments.setEnabled(enabled);
-        treatmentCommentsTextField.setEnabled(enabled);
-        treatmentLabel.setEnabled(enabled);
-        treatmentTextField.setEnabled(enabled);
-    }//GEN-LAST:event_includeTreatmentCheckboxActionPerformed
+    private void clientTableModelListener(TableModelEvent evt) {
+        int type = evt.getType();
+        int row = evt.getFirstRow();
 
-    private void productSearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchTextFieldActionPerformed
+        if (type == TableModelEvent.UPDATE) {
+            ClientTableModel model = (ClientTableModel) clientTable.getModel();
+            if (!model.isEmpty()) {
+                Client client = (Client) model.getItem(row);
+                controller.setCurrentClient(client);
+                clientNameTextField.setText(client.getName());
+            }
+        }
+    }
 
-    }//GEN-LAST:event_productSearchTextFieldActionPerformed
+    private void animalTableModelListener(TableModelEvent evt) {
+        int type = evt.getType();
+        int row = evt.getFirstRow();
+
+        if (type == TableModelEvent.UPDATE) {
+            AnimalTableModel model = (AnimalTableModel) animalTable.getModel();
+            if (!model.isEmpty()) {
+                Animal animal = (Animal) model.getItem(row);
+                controller.setCurrentAnimal(animal);
+                animalNameTextField.setText(animal.getName());
+            }
+        }
+    }
+
+    private void animalTableSelectionListener(ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        AnimalTableModel model = (AnimalTableModel) animalTable.getModel();
+        ListSelectionModel lsm = (ListSelectionModel) evt.getSource();
+        int row = lsm.getMaxSelectionIndex();
+
+        // table model list may be empty if we try to delete the last element
+        if (row >= 0 && !model.isEmpty()) {
+            Animal animal = (Animal) model.getItem(row);
+            controller.setCurrentAnimal(animal);
+            animalNameTextField.setText(animal.getName());
+            treatmentNewButton.setEnabled(true);
+        } else {
+            animalNameTextField.setText("");
+            controller.setCurrentAnimal(null);
+            treatmentNewButton.setEnabled(false);
+        }
+    }
+
+    private void animalNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animalNewButtonActionPerformed
+        AnimalTableModel animalModel = (AnimalTableModel) animalTable.getModel();
+        ClientTableModel clientModel = (ClientTableModel) clientTable.getModel();
+
+        int row = clientTable.getSelectedRow();;
+        if (row >= 0) {
+            Client client = (Client) clientModel.getItem(row);
+            Animal animal = controller.getAnimalController().create(client);
+            animalModel.addItem(animal);
+        }
+    }//GEN-LAST:event_animalNewButtonActionPerformed
+
+    private void vetShowAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vetShowAllButtonActionPerformed
+        VetTableModel model = (VetTableModel) vetTable.getModel();
+        List<Object> items = new ArrayList<>(controller.getVetController().retrieveAll());
+        model.addListOfItems(items);
+    }//GEN-LAST:event_vetShowAllButtonActionPerformed
+
+    private void vetNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vetNewButtonActionPerformed
+        VetTableModel model = (VetTableModel) vetTable.getModel();
+        Vet vet = controller.getVetController().create();
+        model.addItem(vet);
+        controller.setCurrentVet(vet);
+    }//GEN-LAST:event_vetNewButtonActionPerformed
+
+    private void vetTableSelectionListener(ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        VetTableModel model = (VetTableModel) vetTable.getModel();
+        ListSelectionModel lsm = (ListSelectionModel) evt.getSource();
+        int row = lsm.getMaxSelectionIndex();
+
+        //animalTableEnable(row >= 0);
+        // table model list may be empty if we try to delete the last element
+        if (row >= 0 && !model.isEmpty()) {
+            Vet vet = (Vet) model.getItem(row);
+            controller.setCurrentVet(vet);
+            vetNameTextField.setText(vet.getName());
+            createAppointmentButton.setEnabled(true);
+        } else {
+            vetNameTextField.setText("");
+            controller.setCurrentVet(null);
+            createAppointmentButton.setEnabled(false);
+        }
+    }
+
+    private void vetTableModelListener(TableModelEvent evt) {
+        int type = evt.getType();
+        int row = evt.getFirstRow();
+
+        if (type == TableModelEvent.UPDATE) {
+            VetTableModel model = (VetTableModel) vetTable.getModel();
+            if (!model.isEmpty()) {
+                Vet vet = (Vet) model.getItem(row);
+                controller.setCurrentVet(vet);
+                vetNameTextField.setText(vet.getName());
+                createAppointmentButton.setEnabled(true);
+            }
+        }
+    }
+
+    private void animalRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animalRemoveButtonActionPerformed
+        AnimalTableModel model = (AnimalTableModel) animalTable.getModel();
+        int row = animalTable.getSelectedRow();
+        if (row >= 0) {
+            controller.getAnimalController().delete((Animal) model.getItem(row));
+            model.removeItem(row);
+        }
+    }//GEN-LAST:event_animalRemoveButtonActionPerformed
+
+    private void vetRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vetRemoveButtonActionPerformed
+        VetTableModel model = (VetTableModel) vetTable.getModel();
+
+        int row = vetTable.getSelectedRow();
+        if (row >= 0) {
+            controller.getVetController().delete((Vet) model.getItem(row));
+            model.removeItem(row);
+        }
+    }//GEN-LAST:event_vetRemoveButtonActionPerformed
+
+    private void addExamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExamButtonActionPerformed
+        String examName = examsTextField.getText();
+        int row = appointmentTable.getSelectedRow();
+
+        if (examName.isBlank() || row < 0) {
+            return;
+        }
+
+        AppointmentTableModel model = (AppointmentTableModel) appointmentTable.getModel();
+        Appointment appointment = (Appointment) model.getItem(row);
+
+        Exam exam = controller.getExamController().create(examName, appointment);
+        ListModel examsModel = examsList.getModel();
+        int size = examsModel.getSize();
+        String[] exams = new String[size + 1];
+
+        for (int i = 0; i < size; i++) {
+            exams[i] = (String) examsModel.getElementAt(i);
+        }
+        exams[size] = exam.getName();
+
+        examsList.setListData(exams);
+        examsTextField.setText("");
+    }//GEN-LAST:event_addExamButtonActionPerformed
 
     private void productShowAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productShowAllButtonActionPerformed
         ProductTableModel model = (ProductTableModel) productTable.getModel();
-        List<Object> items = new ArrayList<>(controller.retrieveAllProducts());
+        List<Object> items = new ArrayList<>(controller.getProductController().retrieveAll());
         model.addListOfItems(items);
     }//GEN-LAST:event_productShowAllButtonActionPerformed
 
@@ -829,35 +1020,200 @@ public class MainForm extends javax.swing.JFrame {
 
         int row = productTable.getSelectedRow();
         if (row >= 0) {
-            controller.deleteProduct((Product) model.getItem(row));
+            controller.getProductController().delete((Product) model.getItem(row));
             model.removeItem(row);
         }
     }//GEN-LAST:event_productRemoveButtonActionPerformed
 
     private void productNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productNewButtonActionPerformed
         ProductTableModel model = (ProductTableModel) productTable.getModel();
-        Product prod = controller.createProduct();
+        Product prod = controller.getProductController().create();
         model.addItem(prod);
     }//GEN-LAST:event_productNewButtonActionPerformed
 
     private void productSearchTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productSearchTextFieldKeyTyped
         ProductTableModel model = (ProductTableModel) productTable.getModel();
         String name = productSearchTextField.getText();
-        List<Object> items = new ArrayList<>(controller.retrieveProductsByName(name));
+        List<Object> items = new ArrayList<>(controller.getProductController().retrieveBySimilarName(name));
         model.addListOfItems(items);
     }//GEN-LAST:event_productSearchTextFieldKeyTyped
+
+    private void clientRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRemoveButtonActionPerformed
+        ClientTableModel model = (ClientTableModel) clientTable.getModel();
+
+        int row = clientTable.getSelectedRow();
+        if (row >= 0) {
+            controller.getClientController().delete((Client) model.getItem(row));
+            model.removeItem(row);
+        }
+    }//GEN-LAST:event_clientRemoveButtonActionPerformed
+
+    private void clientSearchTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clientSearchTextFieldKeyTyped
+        ClientTableModel model = (ClientTableModel) clientTable.getModel();
+        String name = clientSearchTextField.getText();
+        List<Object> items = new ArrayList<>(controller.getClientController().retrieveBySimilarName(name));
+        model.addListOfItems(items);
+    }//GEN-LAST:event_clientSearchTextFieldKeyTyped
+
+    private void animalShowAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_animalShowAllButtonActionPerformed
+        AnimalTableModel animalModel = (AnimalTableModel) animalTable.getModel();
+        ClientTableModel clientModel = (ClientTableModel) clientTable.getModel();
+
+        int row = clientTable.getSelectedRow();
+        if (row >= 0) {
+            Client owner = (Client) clientModel.getItem(row);
+            List<Object> items = new ArrayList<>(controller.getAnimalController().retrieveAllFromOwner(owner));
+            animalModel.addListOfItems(items);
+        }
+    }//GEN-LAST:event_animalShowAllButtonActionPerformed
+
+    private void animalSearchTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_animalSearchTextFieldKeyTyped
+        AnimalTableModel model = (AnimalTableModel) animalTable.getModel();
+        String name = animalSearchTextField.getText();
+        List<Object> items = new ArrayList<>(controller.getAnimalController().retrieveBySimilarName(name));
+        model.addListOfItems(items);
+    }//GEN-LAST:event_animalSearchTextFieldKeyTyped
+
+    private void vetSearchTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vetSearchTextFieldKeyTyped
+        VetTableModel model = (VetTableModel) vetTable.getModel();
+        String name = vetSearchTextField.getText();
+        List<Object> items = new ArrayList<>(controller.getVetController().retrieveBySimilarName(name));
+        model.addListOfItems(items);
+    }//GEN-LAST:event_vetSearchTextFieldKeyTyped
+
+    private void createAppointmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAppointmentButtonActionPerformed
+        LocalDate _date = dateTimePicker.getDatePicker().getDate();
+        LocalTime _time = dateTimePicker.getTimePicker().getTime();
+        Vet vet = controller.getCurrentVet();
+
+        if (_date == null || _time == null || vet == null) {
+            return;
+        }
+
+        LocalDateTime dateTime = LocalDateTime.of(_date, _time);
+        Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+        Date date = Date.from(instant);
+
+        String report = appointmentComments.getText();
+        
+        String treatmentName = (String) treatmentComboBox.getSelectedItem();
+        Treatment treatment = controller.getTreatmentController().retrieveByName(treatmentName);
+
+        controller.getAppointmentController().create(date, report, vet, treatment);
+
+        appointmentComments.setText("");
+        dateTimePicker.clear();
+    }//GEN-LAST:event_createAppointmentButtonActionPerformed
+
+    private void treatmentNewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentNewButtonActionPerformed
+        TreatmentTableModel model = (TreatmentTableModel) treatmentTable.getModel();
+        Animal animal = controller.getCurrentAnimal();
+
+        if (animal == null) {
+            return;
+        }
+
+        Treatment t = controller.getTreatmentController().create("", animal, new Date(), null);
+        model.addItem(t);
+    }//GEN-LAST:event_treatmentNewButtonActionPerformed
+
+    private void treatmentFinishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentFinishButtonActionPerformed
+        TreatmentTableModel model = (TreatmentTableModel) treatmentTable.getModel();
+        int row = treatmentTable.getSelectedRow();
+
+        if (row >= 0 && !model.isEmpty()) {
+            Treatment t = (Treatment) model.getItem(row);
+            if (t.getDateEnd() == null) {
+                model.setDateEnd(new Date(), row);
+            }
+        }
+    }//GEN-LAST:event_treatmentFinishButtonActionPerformed
+
+    private void treatmentShowAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentShowAllButtonActionPerformed
+        TreatmentTableModel model = (TreatmentTableModel) treatmentTable.getModel();
+        List<Object> items = new ArrayList<>(controller.getTreatmentController().retrieveAll());
+        model.addListOfItems(items);
+    }//GEN-LAST:event_treatmentShowAllButtonActionPerformed
+
+    private void appointmentTableShowAll(Treatment treatment) {
+        AppointmentTableModel model = (AppointmentTableModel) appointmentTable.getModel();
+        List<Object> items = new ArrayList<>(controller.getAppointmentController().retrieveByTreatment(treatment));
+        model.addListOfItems(items);
+    }
+
+    private void appointmentTableSelectionListener(ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        AppointmentTableModel model = (AppointmentTableModel) appointmentTable.getModel();
+        ListSelectionModel lsm = (ListSelectionModel) evt.getSource();
+        int row = lsm.getMaxSelectionIndex();
+
+        if (row >= 0 && !model.isEmpty()) {
+            Appointment a = (Appointment) model.getItem(row);
+            appointmentTextArea.setText(a.getReport());
+            List<Exam> exams = controller.getExamController().retrieveByAppointment(a);
+            List<String> names = exams.stream().map((elem) -> elem.getName()).toList();
+            examsList.setListData(new Vector<>(names));
+        } else {
+            appointmentTextArea.setText("");
+            examsList.setListData(new Vector<>());
+        }
+    }
+
+    private void treatmentTableSelectionListener(ListSelectionEvent evt) {
+        if (evt.getValueIsAdjusting()) {
+            return;
+        }
+
+        TreatmentTableModel model = (TreatmentTableModel) treatmentTable.getModel();
+        ListSelectionModel lsm = (ListSelectionModel) evt.getSource();
+        int row = lsm.getMaxSelectionIndex();
+
+        if (row >= 0 && !model.isEmpty()) {
+            Treatment t = (Treatment) model.getItem(row);
+            treatmentFinishButton.setEnabled(t.getDateEnd() == null);
+            appointmentTableShowAll(t);
+        } else {
+            treatmentFinishButton.setEnabled(false);
+        }
+    }
+
+    private void treatmentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treatmentComboBoxActionPerformed
+        String name = (String) treatmentComboBox.getSelectedItem();
+        System.out.println(name);
+    }//GEN-LAST:event_treatmentComboBoxActionPerformed
+
+    private void treatmentSearchTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_treatmentSearchTextFieldKeyTyped
+        TreatmentTableModel model = (TreatmentTableModel) treatmentTable.getModel();
+        String name = treatmentSearchTextField.getText();
+        List<Object> items = new ArrayList<>(controller.getTreatmentController().retrieveBySimilarName(name));
+        model.addListOfItems(items);
+    }//GEN-LAST:event_treatmentSearchTextFieldKeyTyped
+
+    private void aboutMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_aboutMenuMenuSelected
+        JOptionPane.showMessageDialog(this, "VetClinic é um simples sistema de gerenciamento de uma\nclínica veterinária feito em Java utilizando a arquitetura \nMVC.\n\nTrabalho realizado para disciplina TT001 / 2024.\n\nAutor: Álvaro Costa (246909)",
+                "Sobre", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_aboutMenuMenuSelected
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        launch(new Controller());
+        launch(Controller.getInstance());
     }
 
     public static void launch(Controller controller) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    UIManager.setLookAndFeel(new FlatIntelliJLaf());
+                } catch (Exception e) {
+                    System.err.println(e);
+                    return;
+                }
                 new MainForm(controller).setVisible(true);
             }
         });
@@ -865,35 +1221,41 @@ public class MainForm extends javax.swing.JFrame {
 
     private Controller controller;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu aboutMenu;
+    private javax.swing.JButton addExamButton;
+    private javax.swing.JTextField animalNameTextField;
+    private javax.swing.JButton animalNewButton;
+    private javax.swing.JButton animalRemoveButton;
+    private javax.swing.JTextField animalSearchTextField;
+    private javax.swing.JButton animalShowAllButton;
+    private javax.swing.JTable animalTable;
+    private javax.swing.JTextArea appointmentComments;
+    private javax.swing.JLabel appointmentCommentsLabel;
+    private javax.swing.JTable appointmentTable;
+    private javax.swing.JTextArea appointmentTextArea;
     private javax.swing.JTextField clientNameTextField;
+    private javax.swing.JButton clientNewButton;
     private javax.swing.JPanel clientPanel;
+    private javax.swing.JButton clientRemoveButton;
+    private javax.swing.JTextField clientSearchTextField;
+    private javax.swing.JButton clientShowAllButton;
+    private javax.swing.JTable clientTable;
     private javax.swing.JButton createAppointmentButton;
+    private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker;
+    private javax.swing.JList<String> examsList;
+    private javax.swing.JTextField examsTextField;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JCheckBox includeTreatmentCheckbox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -913,29 +1275,25 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton productNewButton;
     private javax.swing.JPanel productPanel;
     private javax.swing.JButton productRemoveButton;
     private javax.swing.JTextField productSearchTextField;
     private javax.swing.JButton productShowAllButton;
     private javax.swing.JTable productTable;
-    private javax.swing.JTextArea treatmentComments;
-    private javax.swing.JLabel treatmentCommentsTextField;
+    private javax.swing.JComboBox<String> treatmentComboBox;
+    private javax.swing.JButton treatmentFinishButton;
     private javax.swing.JLabel treatmentLabel;
-    private javax.swing.JTextField treatmentTextField;
+    private javax.swing.JButton treatmentNewButton;
+    private javax.swing.JTextField treatmentSearchTextField;
+    private javax.swing.JButton treatmentShowAllButton;
+    private javax.swing.JTable treatmentTable;
+    private javax.swing.JTextField vetNameTextField;
+    private javax.swing.JButton vetNewButton;
+    private javax.swing.JButton vetRemoveButton;
+    private javax.swing.JTextField vetSearchTextField;
+    private javax.swing.JButton vetShowAllButton;
+    private javax.swing.JTable vetTable;
     // End of variables declaration//GEN-END:variables
 }
